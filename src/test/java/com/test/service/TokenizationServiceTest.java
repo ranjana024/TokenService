@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.MockedStatic;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +37,7 @@ class TokenizationServiceTest {
             "account2, token2",
             "account3, token3"
     })
-    void tokenize_retursnExistingToken_whenTokenized(String account, String token) {
+    void tokenize_returnsExistingToken_whenTokenized(String account, String token) {
         //Arrange
         when(repository.findTokenByAccount(account))
                 .thenReturn(Optional.of(token));
@@ -46,6 +47,24 @@ class TokenizationServiceTest {
         assertEquals(List.of(token), result);
         verify(repository).findTokenByAccount(account);
         verifyNoInteractions(tokenGenerator);
+        verify(repository, never()).saveIfAbsent(any(), any());
+    }
+
+    @Test
+    void tokenize_generatesAndSavesToken_whenNoExistingToken() {
+        //Arrange
+        String account = "account1";
+        MockedStatic<TokenGenerator> mockedGenerator = mockStatic(TokenGenerator.class);
+        when(repository.findTokenByAccount(account))
+                .thenReturn(Optional.empty());
+        mockedGenerator.when(TokenGenerator::generateToken).thenReturn("NEW_TOKEN");
+        when(repository.saveIfAbsent(account, "NEW_TOKEN"))
+                .thenReturn(true);
+        // Act
+        List<String> result = service.tokenize(List.of(account));
+        //Assert
+        assertEquals(List.of("NEW_TOKEN"), result);
+        verify(repository).saveReverseMapping("NEW_TOKEN", account);
     }
 
     @ParameterizedTest
