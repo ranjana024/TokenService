@@ -12,4 +12,8 @@ public interface TokenRepository {
     Optional<String> findTokenByAccount(String accountNumber);
 
     Optional<String> findAccountByToken(String token);
+
+    boolean saveIfAbsent(String accountNumber, String token);
+
+    void saveReverseMapping(String token, String accountNumber);
 }

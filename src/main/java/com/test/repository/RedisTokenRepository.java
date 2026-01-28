@@ -29,4 +29,13 @@ public class RedisTokenRepository implements TokenRepository {
     public Optional<String> findAccountByToken(String token) {
         return Optional.ofNullable(redisTemplate.opsForValue().get("token:" + token));
     }
+
+    public boolean saveIfAbsent(String account, String token) {
+        return redisTemplate.opsForValue()
+                .setIfAbsent("account:" + account, token);
+    }
+
+    public void saveReverseMapping(String token, String account) {
+        redisTemplate.opsForValue().set("token:" + token, account);
+    }
 }

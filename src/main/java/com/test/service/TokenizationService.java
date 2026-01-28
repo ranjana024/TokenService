@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class TokenizationService {
@@ -46,13 +47,19 @@ public class TokenizationService {
      * Tokenizes a single account number with idempotency.
      */
     private String tokenizeSingle(String accountNumber) {
+        var existing = repository.findTokenByAccount(accountNumber);
+       if (existing.isPresent()){
+           return existing.get();
+       }
 
-        return repository.findTokenByAccount(accountNumber)
-                .orElseGet(() -> {
-                    String token = tokenGenerator.generateToken();
-                    repository.saveMapping(accountNumber, token);
-                    return token;
-                });
+       var token = tokenGenerator.generateToken();
+       boolean created = repository.saveIfAbsent(accountNumber, token);
+
+       if (!created){
+           return repository.findTokenByAccount(accountNumber).get();
+       }
+       repository.saveReverseMapping(token, accountNumber);
+       return token;
     }
 
     /**
