@@ -1,5 +1,7 @@
 package com.test.controller;
 
+import com.test.dto.request.DetokenizeRequest;
+import com.test.dto.request.TokenizationRequest;
 import com.test.service.TokenizationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -7,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,8 +41,8 @@ public class TokenizationController {
             }
     )
     @PostMapping("/tokenize")
-    public ResponseEntity<List<String>> tokenize(@RequestBody List<String> accountNumbers) {
-        return ResponseEntity.ok(service.tokenize(accountNumbers));
+    public ResponseEntity<List<String>> tokenize(@Valid @RequestBody TokenizationRequest  tokenizationRequest) {
+        return ResponseEntity.ok(service.tokenize(tokenizationRequest));
     }
 
     @Operation(
@@ -56,7 +59,7 @@ public class TokenizationController {
             }
     )
     @PostMapping("/detokenize")
-    public ResponseEntity<List<String>> detokenize(@RequestBody List<String> tokens) {
-        return ResponseEntity.ok(service.detokenize(tokens));
+    public ResponseEntity<List<String>> detokenize(@Valid @RequestBody DetokenizeRequest detokenizeRequest) {
+        return ResponseEntity.ok(service.detokenize(detokenizeRequest));
     }
 }
