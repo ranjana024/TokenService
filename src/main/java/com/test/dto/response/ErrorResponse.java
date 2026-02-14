@@ -9,4 +9,3 @@ public record ErrorResponse(
         @Schema(description = "error message", example = "list is empty")
         String message
 ) {}
-
