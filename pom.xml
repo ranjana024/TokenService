@@ -9,7 +9,7 @@
         <version>4.0.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.test.tokenization</groupId>
+    <groupId>com.demo.tokenization</groupId>
     <artifactId>TokenizationApplication</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>

@@ -1,4 +1,4 @@
-package com.test.config;
+package com.demo.config;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;

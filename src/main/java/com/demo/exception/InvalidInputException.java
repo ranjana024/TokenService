@@ -1,4 +1,4 @@
-package com.test.exception;
+package com.demo.exception;
 
 /**
  * Thrown when the client provides invalid or malformed input.

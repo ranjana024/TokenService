@@ -1,4 +1,4 @@
-package com.test.dto.request;
+package com.demo.dto.request;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;

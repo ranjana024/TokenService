@@ -1,4 +1,4 @@
-package com.test.repository;
+package com.demo.repository;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;

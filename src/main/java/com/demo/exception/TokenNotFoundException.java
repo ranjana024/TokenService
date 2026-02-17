@@ -1,4 +1,4 @@
-package com.test.exception;
+package com.demo.exception;
 
 public class TokenNotFoundException extends RuntimeException {
     public TokenNotFoundException(String token) {

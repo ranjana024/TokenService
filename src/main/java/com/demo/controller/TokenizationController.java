@@ -1,8 +1,8 @@
-package com.test.controller;
+package com.demo.controller;
 
-import com.test.dto.request.DetokenizeRequest;
-import com.test.dto.request.TokenizationRequest;
-import com.test.service.TokenizationService;
+import com.demo.dto.request.DetokenizeRequest;
+import com.demo.dto.request.TokenizationRequest;
+import com.demo.service.TokenizationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -1,12 +1,12 @@
-package com.test.service;
+package com.demo.service;
 
-import com.test.dto.request.DetokenizeRequest;
-import com.test.dto.request.TokenizationRequest;
-import com.test.exception.InvalidInputException;
-import com.test.exception.TokenNotFoundException;
-import com.test.mapper.TokenizationMapper;
-import com.test.repository.TokenRepository;
-import com.test.util.TokenGenerator;
+import com.demo.dto.request.DetokenizeRequest;
+import com.demo.dto.request.TokenizationRequest;
+import com.demo.exception.InvalidInputException;
+import com.demo.exception.TokenNotFoundException;
+import com.demo.mapper.TokenizationMapper;
+import com.demo.repository.TokenRepository;
+import com.demo.util.TokenGenerator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

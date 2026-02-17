@@ -1,7 +1,7 @@
-package com.test.integration;
+package com.demo.integration;
 
-import com.test.repository.TokenRepository;
-import com.test.util.TokenGenerator;
+import com.demo.repository.TokenRepository;
+import com.demo.util.TokenGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
