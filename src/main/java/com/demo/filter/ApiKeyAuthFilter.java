@@ -23,13 +23,12 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         // Only filter /tokenize and /detokenize
         String path = request.getRequestURI();
-        return !request.getRequestURI().equals("/api/auth/token");
+        return !path.equals("/api/auth/token");
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        System.out.println(">>> ApiKeyAuthFilter RUNNING for: " + request.getRequestURI());
         String header = request.getHeader("X_API_KEY");
         if (header == null || !header.equals(apiKey)){
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
