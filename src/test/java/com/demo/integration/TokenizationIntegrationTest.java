@@ -4,22 +4,22 @@ import com.demo.repository.TokenRepository;
 import com.demo.util.TokenGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(TokenizationIntegrationTest.class)
 class TokenizationIntegrationTest {
 
     @Autowired
     private MockMvc mvc;
 
-    @MockitoBean
+    @MockBean
     private TokenRepository repository;
 
-    @MockitoBean
+    @MockBean
     private TokenGenerator tokenGenerator;
 
     @Test
