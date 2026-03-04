@@ -1,5 +1,6 @@
 package com.demo.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class ApiKeyAuthFilter extends OncePerRequestFilter {
@@ -23,7 +26,7 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         // Only filter /tokenize and /detokenize
         String path = request.getRequestURI();
-        return !path.equals("/api/auth/token");
+        return !(path.contains("/tokenize") || path.contains("/detokenize"));
     }
 
     @Override
@@ -32,7 +35,13 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
         String header = request.getHeader("X_API_KEY");
         if (header == null || !header.equals(apiKey)){
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Invalid API Key");
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            Map<String, Object> error = new HashMap<>();
+            error.put("code", "UNAUTHORIZED");
+            error.put("message", "Invalid API Key");
+            ObjectMapper objectMapper = new ObjectMapper();
+            response.getWriter().write(objectMapper.writeValueAsString(error));
             return;
         }
 
