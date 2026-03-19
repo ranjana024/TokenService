@@ -2,6 +2,7 @@ package com.demo.config;
 
 import com.demo.filter.ApiKeyAuthFilter;
 import com.demo.filter.JwtAuthFilter;
+import com.demo.util.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,16 +12,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    private final ApiKeyAuthFilter apiKeyAuthFilter;
-    private final JwtAuthFilter jwtAuthFilter;
-
-    public SecurityConfig(ApiKeyAuthFilter apiKeyAuthFilter, JwtAuthFilter jwtAuthFilter) {
-        this.apiKeyAuthFilter = apiKeyAuthFilter;
-        this.jwtAuthFilter = jwtAuthFilter;
+    @Bean
+    public JwtAuthFilter jwtAuthFilter (JwtUtil jwtUtil) {
+        return new JwtAuthFilter(jwtUtil);
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public ApiKeyAuthFilter apiKeyAuthFilter() {
+        return new ApiKeyAuthFilter();
+    }
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http,
+                                           ApiKeyAuthFilter apiKeyAuthFilter,
+                                           JwtAuthFilter jwtAuthFilter) throws Exception {
 
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
